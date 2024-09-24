@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 
 #misc
-#*.mp3
+*.mp3
