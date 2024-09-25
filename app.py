@@ -14,7 +14,7 @@ def convert_epub(infile,outfile,settings):
     
     command = 'python.exe main.py "' + infile + '" "' + outfile + '" --tts edge --no_prompt'
 
-    command = 'python.exe main.py "./temp/temp.epub" "' + outfile + '" --tts edge --no_prompt'
+    #command = 'python.exe main.py "./temp/temp.epub" "' + outfile + '" --tts edge --no_prompt'
 
     # Run the command using subprocess
     result = subprocess.run(command + settings, 
@@ -27,7 +27,7 @@ def convert_epub(infile,outfile,settings):
 
 # %%
 # Streamlit page title
-st.title("epub file uploader")
+st.title("BookMaker")
 
 # Allow user to upload one or more epub files
 uploaded_files = st.file_uploader("Upload epub files", type="epub", accept_multiple_files=True)
@@ -48,7 +48,7 @@ if uploaded_files:
         with open('./temp/temp.epub', "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        convert_epub('./.temp/temp.epub', outfile, settings)
+        convert_epub('./temp/temp.epub', outfile, settings)
         os.remove('./temp/temp.epub')
         st.write('done')
 
