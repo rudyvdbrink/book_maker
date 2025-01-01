@@ -1,3 +1,10 @@
+# %%
+
+#https://github.com/p0n1/epub_to_audiobook
+
+# https://github.com/rhasspy/piper
+
+# %%
 import subprocess
 
 # %%

@@ -163,3 +163,4 @@ cython_debug/
 
 #misc
 *.mp3
+*.wav
