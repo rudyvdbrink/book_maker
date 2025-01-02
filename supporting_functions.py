@@ -48,6 +48,14 @@ def book_parser(infile):
     book = EpubBookParser(config)
     return book
 
+def clean_chapters(chapters):
+    #remove empty chapters
+    chapters = [chapter for chapter in chapters if chapter != ('', '')]
+
+    #remove chapters with the project gutenburg license
+    chapters = [chapter for chapter in chapters if 'project gutenberg license' not in chapter[0].lower().replace('_',' ')]
+    return chapters
+
 # %% text to speech
 
 def split_text(text, max_length=250):
@@ -108,6 +116,7 @@ def generate_chapter_file(text, chapter_number, output_dir="temp"):
 # %% file conversion
 
 def convert_wav_to_mp3(wav_file, mp3_file, chapter_title, chapter_number, artist, album):
+    chapter_title = chapter_title.lower().replace('_',' ').title()
     audio = AudioSegment.from_wav(wav_file)
     audio.export(mp3_file, format="mp3", tags={
         "title": chapter_title,
