@@ -2,17 +2,16 @@
 # %% libraries
 import os
 
-from supporting_functions import book_parser, generate_chapter_file, convert_wav_to_mp3
+from supporting_functions import book_parser, generate_chapter_file, convert_wav_to_mp3, clean_chapters
 
 # %% get book text
 
-#infile = './examples/The call of Cthulhu - HP Lovecraft.epub'
-infile = './examples/The colour out of space - HP Lovecraft.epub'
+infile = './examples/The call of Cthulhu - HP Lovecraft.epub'
+#infile = './examples/The colour out of space - HP Lovecraft.epub'
 book = book_parser(infile)
 
-#filter out empty chapters
-chapters = book.get_chapters(' ')
-chapters = [chapter for chapter in book.get_chapters(' ') if chapter != ('', '')]
+#filter out empty chapters and license
+chapters = clean_chapters(book.get_chapters(' '))
 
 #generate chapter files
 for chapter_number, chapter in enumerate(chapters):
