@@ -6,7 +6,8 @@ from supporting_functions import book_parser, generate_chapter_file, convert_wav
 
 # %% get book text
 
-infile = './examples/The call of Cthulhu - HP Lovecraft.epub'
+#infile = './examples/The call of Cthulhu - HP Lovecraft.epub'
+infile = './examples/The colour out of space - HP Lovecraft.epub'
 book = book_parser(infile)
 
 #filter out empty chapters
@@ -47,6 +48,6 @@ for file in os.listdir('temp'):
         os.rename(os.path.join('temp', file), os.path.join(output_folder, file))
 
 #remove chapter files from the temp folder
-# for file in os.listdir('temp'):
-#     if file.startswith('chapter_'):
-#         os.remove(os.path.join('temp', file))
+for file in os.listdir('temp'):
+    if file.startswith('chapter_'):
+        os.remove(os.path.join('temp', file))
