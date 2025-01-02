@@ -1,41 +1,53 @@
-from gtts import gTTS
+
+# %% libraries
 import os
 
-def speak_text_gTTS(text, lang='en', tld='com'):
-    tts = gTTS(text=text, lang=lang, tld=tld)
-    filename = "output.mp3"
-    
-    # Save the converted speech to an MP3 file
-    tts.save(filename)
-    
-    # Play the MP3 file (this works on most systems, use other methods on Windows/macOS if needed)
-    os.system(f"mpg123 {filename}")
+from supporting_functions import book_parser, generate_chapter_file, convert_wav_to_mp3
 
-if __name__ == "__main__":
-    # Define available languages and accents
-    voices = {
-        '1': {'lang': 'en', 'tld': 'com', 'name': 'English (US)'},
-        '2': {'lang': 'en', 'tld': 'co.uk', 'name': 'English (UK)'},
-        '3': {'lang': 'en', 'tld': 'com.au', 'name': 'English (Australia)'},
-        '4': {'lang': 'en', 'tld': 'ca', 'name': 'English (Canada)'},
-        '5': {'lang': 'en', 'tld': 'ie', 'name': 'English (Ireland)'},
-        '6': {'lang': 'en', 'tld': 'co.in', 'name': 'English (India)'},
-        '7': {'lang': 'fr', 'tld': 'fr', 'name': 'French'},
-        '8': {'lang': 'es', 'tld': 'es', 'name': 'Spanish'},
-        '9': {'lang': 'de', 'tld': 'de', 'name': 'German'},
-    }
+# %% get book text
 
-    # Display available voices
-    print("Available voices:")
-    for key, value in voices.items():
-        print(f"{key}: {value['name']}")
+#infile = './examples/The call of Cthulhu - HP Lovecraft.epub'
+infile = './examples/The colour out of space - HP Lovecraft.epub'
+book = book_parser(infile)
 
-    # Get user choice
-    voice_choice = input("Enter the number of the voice you want to use: ")
-    voice = voices.get(voice_choice, voices['1'])  # Default to English (US)
-    
-    # Get user text
-    text = input("Enter the text to convert to speech: ")
-    
-    # Speak using gTTS with selected voice (language/locale)
-    speak_text_gTTS(text, lang=voice['lang'], tld=voice['tld'])
+#filter out empty chapters
+chapters = book.get_chapters(' ')
+chapters = [chapter for chapter in book.get_chapters(' ') if chapter != ('', '')]
+
+#generate chapter files
+for chapter_number, chapter in enumerate(chapters):
+    #skip this chapter if it exists already
+    if os.path.exists(f'temp/chapter_{chapter_number}_combined.wav'):
+        continue
+    text = chapter[1]  # Assuming chapter[1] contains the text of the chapter
+    generate_chapter_file(text, chapter_number)
+
+
+# Get book metadata
+book_author = book.get_book_author()
+book_title  = book.get_book_title()
+
+#convert each chapter to mp3 with metadata
+for chapter_number, chapter in enumerate(chapters):
+    chapter_title = chapter[0]
+    for file in os.listdir('temp'):
+        if file.startswith(f'chapter_{chapter_number}_') and file.endswith('.wav'):
+            mp3_file = file.replace('.wav', '.mp3').replace('_combined', '')
+            convert_wav_to_mp3(os.path.join('temp', file), os.path.join('temp', mp3_file), chapter_title, chapter_number, book_author, book_title)
+            
+# %% file cleanup and organization
+
+# create a folder with the book title in the 'books' folder
+output_folder = os.path.join('books', book.get_book_title())
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
+
+#copy over all the chapter mp3 files
+for file in os.listdir('temp'):
+    if file.startswith('chapter_') & file.endswith('.mp3'):
+        os.rename(os.path.join('temp', file), os.path.join(output_folder, file))
+
+#remove chapter files from the temp folder
+for file in os.listdir('temp'):
+    if file.startswith('chapter_'):
+        os.remove(os.path.join('temp', file))
