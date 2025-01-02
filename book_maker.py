@@ -2,6 +2,7 @@
 # %% libraries
 import os
 from tqdm import tqdm
+import streamlit as st
 
 from supporting_functions import (book_parser, 
                                   generate_chapter_file, 
@@ -11,10 +12,10 @@ from supporting_functions import (book_parser,
                                   )
 
 
-def book_maker(infile):
+def book_maker(infile, selected_voice='Sky'):
 
     # %% get book text
-    
+
     #infile = './examples/The colour out of space - HP Lovecraft.epub'
     with suppress_output():
         book = book_parser(infile)
@@ -27,6 +28,7 @@ def book_maker(infile):
     book_title  = book.get_book_title()
 
     print(str(len(chapters)) + ' chapters found' )
+    st.write('number of chapters found: ' + str(len(chapters)))
 
     # %% produce raw audio files
 
@@ -37,7 +39,7 @@ def book_maker(infile):
             continue
         text = chapter[1]  # Assuming chapter[1] contains the text of the chapter
         #with suppress_output():
-        generate_chapter_file(text, chapter_number)
+        generate_chapter_file(text, chapter_number,output_dir="temp",selected_voice=selected_voice)
 
             
     # %% file cleanup and organization
@@ -58,6 +60,9 @@ def book_maker(infile):
     #copy over all the chapter mp3 files
     for file in os.listdir('temp'):
         if file.startswith('chapter_') & file.endswith('.mp3'):
+            #if the output file exists already, delete it
+            if os.path.exists(os.path.join(output_folder, file)):
+                os.remove(os.path.join(output_folder, file))
             os.rename(os.path.join('temp', file), os.path.join(output_folder, file))
 
     #remove chapter files from the temp folder

@@ -8,6 +8,7 @@ from TTS.api import TTS
 
 from tqdm import tqdm
 
+import streamlit as st
 
 from audiobook_generator.config.general_config import GeneralConfig
 from audiobook_generator.book_parsers.epub_book_parser import EpubBookParser
@@ -104,7 +105,11 @@ def split_text(text, max_length=500):
 
     return chunks
 
-def generate_chapter_file(text, chapter_number, output_dir="temp"):
+def generate_chapter_file(text, chapter_number, output_dir="temp",selected_voice='Sky'):
+
+    progress_text = "Chapter " + str(chapter_number+1) 
+    progress_bar  = st.progress(0, text=progress_text)
+
     with suppress_output():
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
@@ -120,6 +125,9 @@ def generate_chapter_file(text, chapter_number, output_dir="temp"):
 
         #print(f"Generating chapter {chapter_number} part {i+1}/{len(chunks)}")
 
+        #draw streamlit progress bar
+        progress_bar.progress((i+1)/len(chunks), text=progress_text) 
+
         file_path = os.path.join(output_dir, f"chapter_{chapter_number}_part_{i}.wav")
         #skip if text is empty
         if not chunk.strip():
@@ -130,7 +138,7 @@ def generate_chapter_file(text, chapter_number, output_dir="temp"):
             continue
         
         with suppress_output():
-            tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav="female_reference.wav", language="en")
+            tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en")
         
         audio_files.append(file_path)
     
@@ -143,6 +151,18 @@ def generate_chapter_file(text, chapter_number, output_dir="temp"):
     # Delete all chapter parts
     for file in audio_files:
         os.remove(file)
+
+#function to generate sample audio
+def generate_sample_audio(text, selected_voice='Sky'):
+    with suppress_output():
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
+        tts = tts.to(device)
+    
+    file_path = os.path.join('temp', 'sample.wav')
+    with suppress_output():
+        tts.tts_to_file(text=text, file_path=file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en")
+    return file_path
 
 # #delete all files with the word 'part' in the name
 # for file in os.listdir('temp'):
