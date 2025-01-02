@@ -1,28 +1,28 @@
 # %% libraries
-from book_maker import book_maker
+import tempfile
 import streamlit as st
 import os
 
 # %%
 
-# import subprocess
+import subprocess
 
-# settings = " --voice_rate=-15% --voice_volume=-20% --voice_name=en-GB-LibbyNeural" 
+settings = " --voice_rate=-15% --voice_volume=-20% --voice_name=en-GB-LibbyNeural" 
 
-# def convert_epub(infile,outfile,settings):
+def convert_epub(infile,outfile,settings):
 
     
-#     command = 'python.exe main.py "' + infile + '" "' + outfile + '" --tts edge --no_prompt'
+    command = 'python.exe main.py "' + infile + '" "' + outfile + '" --tts edge --no_prompt'
 
-#     #command = 'python.exe main.py "./temp/temp.epub" "' + outfile + '" --tts edge --no_prompt'
+    #command = 'python.exe main.py "./temp/temp.epub" "' + outfile + '" --tts edge --no_prompt'
 
-#     # Run the command using subprocess
-#     result = subprocess.run(command + settings, 
-#                             shell=True, 
-#                             check=True, 
-#                             stdout=subprocess.PIPE, 
-#                             stderr=subprocess.PIPE, 
-#                             text=True)
+    # Run the command using subprocess
+    result = subprocess.run(command + settings, 
+                            shell=True, 
+                            check=True, 
+                            stdout=subprocess.PIPE, 
+                            stderr=subprocess.PIPE, 
+                            text=True)
     
 
 # %%
@@ -40,7 +40,7 @@ file_details = []
 if uploaded_files:
     for uploaded_file in uploaded_files:
         book_name = uploaded_file.name.split('.epub')[0]
-        #outfile = './books/' + book_name
+        outfile = './books/' + book_name
         #outfile = './books/temp'
 
         st.write('working on: ' + book_name)
@@ -48,9 +48,7 @@ if uploaded_files:
         with open('./temp/temp.epub', "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        book_maker('./temp/temp.epub')
-        
-        #onvert_epub('./temp/temp.epub', outfile, settings)
+        convert_epub('./temp/temp.epub', outfile, settings)
         os.remove('./temp/temp.epub')
         st.write('done')
 

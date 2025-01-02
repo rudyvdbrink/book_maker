@@ -1,13 +1,35 @@
 # %%
 
 import os
+import sys
 from pydub import AudioSegment
+import torch
 from TTS.api import TTS
+
+from tqdm import tqdm
+
 
 from audiobook_generator.config.general_config import GeneralConfig
 from audiobook_generator.book_parsers.epub_book_parser import EpubBookParser
 
 from mutagen.easyid3 import EasyID3
+
+from contextlib import contextmanager
+
+# %% context management
+
+@contextmanager
+def suppress_output():
+    with open(os.devnull, 'w') as devnull:
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = devnull
+        sys.stderr = devnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
 
 # %% book parsing
 
@@ -58,7 +80,9 @@ def clean_chapters(chapters):
 
 # %% text to speech
 
-def split_text(text, max_length=250):
+def split_text(text, max_length=500):
+    #max_length is hard-coded in:
+    #.venv/Lib/TTS/tts/layers/xtts/tokenizer.py
     def split_chunk(chunk):
         if len(chunk) <= max_length:
             return [chunk]
@@ -77,25 +101,37 @@ def split_text(text, max_length=250):
                 chunks.extend(split_chunk(sub_chunk.strip()))
         else:
             chunks.append(sentence)
+
     return chunks
 
 def generate_chapter_file(text, chapter_number, output_dir="temp"):
-    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2", gpu=True)
-    
+    with suppress_output():
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
+        tts = tts.to(device)
+        
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
     chunks = split_text(text)
     audio_files = []
     
-    for i, chunk in enumerate(chunks):
+    for i, chunk in enumerate( tqdm(chunks, desc='Chapter ' + str(chapter_number+1)) ):
+
+        #print(f"Generating chapter {chapter_number} part {i+1}/{len(chunks)}")
+
         file_path = os.path.join(output_dir, f"chapter_{chapter_number}_part_{i}.wav")
         #skip if text is empty
         if not chunk.strip():
             continue
-        tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav="female_reference.wav", language="en")
-        
 
+        #skip if text is a period or elipses
+        if chunk.strip() in ['.', '..', '...']:
+            continue
+        
+        with suppress_output():
+            tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav="female_reference.wav", language="en")
+        
         audio_files.append(file_path)
     
     combined = AudioSegment.empty()
@@ -131,3 +167,4 @@ def convert_wav_to_mp3(wav_file, mp3_file, chapter_title, chapter_number, artist
     audiofile["artist"] = artist
     audiofile["album"] = album
     audiofile.save()
+
