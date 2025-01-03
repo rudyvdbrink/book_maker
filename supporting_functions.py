@@ -105,7 +105,7 @@ def split_text(text, max_length=500):
 
     return chunks
 
-def generate_chapter_file(text, chapter_number, output_dir="temp",selected_voice='Sky'):
+def generate_chapter_file(text, chapter_number, output_dir="temp",selected_voice='Sky',speed=1.0,emotion='Neutral'):
 
     progress_text = "Chapter " + str(chapter_number+1) 
     progress_bar  = st.progress(0, text=progress_text)
@@ -138,7 +138,7 @@ def generate_chapter_file(text, chapter_number, output_dir="temp",selected_voice
             continue
         
         with suppress_output():
-            tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en")
+            tts.tts_to_file(text=chunk, file_path=file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en",speed=speed,emotion=emotion)
         
         audio_files.append(file_path)
     
@@ -152,17 +152,56 @@ def generate_chapter_file(text, chapter_number, output_dir="temp",selected_voice
     for file in audio_files:
         os.remove(file)
 
-#function to generate sample audio
-def generate_sample_audio(text, selected_voice='Sky'):
+#function to chunk text into smaller parts
+def split_text(text, max_length=250):
+    def split_chunk(chunk):
+        if len(chunk) <= max_length:
+            return [chunk]
+        mid = len(chunk) // 2
+        split_point = chunk.rfind(' ', 0, mid)
+        if split_point == -1:
+            split_point = chunk.find(' ', mid)
+        if split_point == -1:
+            return [chunk]
+        return split_chunk(chunk[:split_point].strip()) + split_chunk(chunk[split_point:].strip())
+
+    chunks = []
+    for sentence in text.split('. '):
+        if len(sentence) > max_length:
+            for sub_chunk in sentence.split(', '):
+                chunks.extend(split_chunk(sub_chunk.strip()))
+        else:
+            chunks.append(sentence)
+    return chunks
+
+# Function to generate sample audio
+def generate_sample_audio(text, selected_voice='Sky', speed=1.0, emotion='Neutral', max_length=250):
     with suppress_output():
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
         tts = tts.to(device)
     
-    file_path = os.path.join('temp', 'sample.wav')
-    with suppress_output():
-        tts.tts_to_file(text=text, file_path=file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en")
-    return file_path
+    chunks = split_text(text, max_length)
+    audio_files = []
+    
+    for i, chunk in enumerate(chunks):
+        chunk_file_path = os.path.join('temp', f'sample_part_{i}.wav')
+        with suppress_output():
+            tts.tts_to_file(text=chunk, file_path=chunk_file_path, speaker_wav='./references/' + selected_voice + '.wav', language="en", speed=speed, emotion=emotion)
+        audio_files.append(chunk_file_path)
+    
+    combined = AudioSegment.empty()
+    for file in audio_files:
+        combined += AudioSegment.from_wav(file)
+    
+    combined_file_path = os.path.join('temp', 'sample.wav')
+    combined.export(combined_file_path, format="wav")
+
+    # Clean up temporary chunk files
+    for file in audio_files:
+        os.remove(file)
+    
+    return combined_file_path
 
 # #delete all files with the word 'part' in the name
 # for file in os.listdir('temp'):

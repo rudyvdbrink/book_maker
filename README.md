@@ -1,2 +1,2 @@
 # book_maker
-Make audio books from pdfs
+Make audio books from epub files
