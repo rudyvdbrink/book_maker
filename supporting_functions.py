@@ -176,6 +176,11 @@ def split_text(text, max_length=250):
 
 # Function to generate sample audio
 def generate_sample_audio(text, selected_voice='Sky', speed=1.0, emotion='Neutral', max_length=250):
+    
+    #create temp folder if needed
+    if not os.path.exists('temp'):
+        os.makedirs('temp')
+    
     with suppress_output():
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
