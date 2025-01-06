@@ -36,7 +36,7 @@ with col1:
     voice_names = [f.split('.wav')[0] for f in os.listdir('./references/') if f.endswith('.wav')]
 
     #re-arrange list so it's sorted end to start
-    voice_names = voice_names[::-1]
+    #voice_names = voice_names[::-1]
 
     #drop-down menu with voice name
     selected_voice = st.selectbox("Select a voice:", voice_names)
@@ -51,7 +51,7 @@ with col1:
 
     with r:
         #slider with max length
-        max_length = st.slider('Max chunk length:', min_value=50, max_value=500, value=400, step=25)
+        max_length = st.slider('Max chunk length:', min_value=50, max_value=500, value=250, step=25)
         #drop-down for voice emotion
         #emotion = st.selectbox("Select an emotion:", ['Neutral', 'Happy', 'Sad', 'Angry', 'Fearful', 'Disgusted', 'Surprised'])
         emotion = 'Neutral'
