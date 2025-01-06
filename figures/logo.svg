@@ -44,6 +44,13 @@
        width="445.4241"
        height="66.470985"
        id="rect1" />
+    <pattern
+       id="EMFhbasepattern"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
   </defs>
   <sodipodi:namedview
      id="namedview1"
@@ -56,11 +63,11 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="2.9185668"
      inkscape:cx="451.4202"
-     inkscape:cy="210.71987"
-     inkscape:window-width="3840"
+     inkscape:cy="210.71986"
+     inkscape:window-width="3816"
      inkscape:window-height="2050"
-     inkscape:window-x="-32000"
-     inkscape:window-y="-32000"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg" />
   <path
@@ -81,10 +88,10 @@
      fill-rule="evenodd"
      id="path1"
      sodipodi:nodetypes="ccsccscccsccccccsscsccccsccssscccscscccccsccccccsscccscscscccsccccccccsccccccccccccccscsccccccccccccccccssccccsccc"
-     style="fill:#1c1c1c;fill-opacity:1;stroke-width:0.357878" />
+     style="fill:#262730;fill-opacity:1;stroke-width:0.357878" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:42.3861px;line-height:0.9;font-family:helvetica;-inkscape-font-specification:helvetica;word-spacing:-0.567668px;fill:#151515;fill-opacity:1;stroke-width:0.567668"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:42.3861px;line-height:0.9;font-family:helvetica;-inkscape-font-specification:helvetica;word-spacing:-0.567668px;fill:#262730;fill-opacity:1;stroke-width:0.567668"
      x="103.4606"
      y="254.18394"
      id="text2"><tspan
@@ -92,10 +99,10 @@
        id="tspan2"
        x="103.4606"
        y="254.18394"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:helvetica;-inkscape-font-specification:'helvetica Bold';fill:#151515;fill-opacity:1;stroke-width:0.567668">BOOKMAKER</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:helvetica;-inkscape-font-specification:'helvetica Bold';fill:#262730;fill-opacity:1;stroke-width:0.567668">BOOKMAKER</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.3439px;line-height:0.9;font-family:helvetica;-inkscape-font-specification:helvetica;word-spacing:-0.729499px;fill:#616161;fill-opacity:1;stroke-width:0.729499"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.3439px;line-height:0.9;font-family:helvetica;-inkscape-font-specification:helvetica;word-spacing:-0.729499px;fill:#262730;fill-opacity:1;stroke-width:0.729499"
      x="104.86532"
      y="278.8187"
      id="text2-1"><tspan
@@ -103,7 +110,7 @@
        id="tspan2-5"
        x="104.86532"
        y="278.8187"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.3439px;font-family:helvetica;-inkscape-font-specification:helvetica;fill:#616161;fill-opacity:1;stroke-width:0.729499">make your own audiobooks</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.3439px;font-family:helvetica;-inkscape-font-specification:helvetica;fill:#262730;fill-opacity:1;stroke-width:0.729499">make your own audiobooks</tspan></text>
   <text
      xml:space="preserve"
      id="text3"

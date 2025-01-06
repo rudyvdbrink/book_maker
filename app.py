@@ -44,20 +44,32 @@ with col1:
     l, r = col1.columns(2)
     with l:
         #slider with voice speed
-        speed = st.slider('Voice speed:', min_value=0.0, max_value=2.0, value=1.0, step=0.1)
+        speed = st.slider('Voice speed:', min_value=0.5, max_value=2.0, value=1.0, step=0.1)
+
+        #tick box for split setences
+        split_sentences = st.checkbox('Split sentences', value=False)
 
     with r:
+        #slider with max length
+        max_length = st.slider('Max chunk length:', min_value=50, max_value=500, value=400, step=25)
         #drop-down for voice emotion
-        emotion = st.selectbox("Select an emotion:", ['Neutral', 'Happy', 'Sad', 'Angry', 'Fearful', 'Disgusted', 'Surprised'])
-    
+        #emotion = st.selectbox("Select an emotion:", ['Neutral', 'Happy', 'Sad', 'Angry', 'Fearful', 'Disgusted', 'Surprised'])
+        emotion = 'Neutral'
+
     #make box with input text
-    input_text = st.text_input('Read the following:', "Hi, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you.")
+    input_text = st.text_input('Read the following:', "Hello, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you.")
 
     if st.button('Generate sample'):
+        #st.write('Split sentences: ' + str(split_sentences))
         #display loading wheel while generating audio
         with st.spinner('Generating audio...'):
             #generate sample audio
-            st.audio(generate_sample_audio(input_text, selected_voice, speed=speed, emotion=emotion), format='audio/wav')
+            st.audio(generate_sample_audio(input_text, 
+                                           selected_voice,
+                                           max_length=max_length, 
+                                           speed=speed, 
+                                           emotion=emotion,
+                                           split_sentences=split_sentences), format='audio/wav')
 
 
 # Right column: BookMaker part
@@ -77,7 +89,12 @@ with col2:
                     f.write(uploaded_file.getbuffer())
 
                 # convert book                
-                book_maker('./temp/temp.epub',selected_voice,speed=speed,emotion=emotion)
+                book_maker('./temp/temp.epub',
+                           selected_voice,
+                           max_length=max_length,
+                           speed=speed,
+                           emotion=emotion,
+                           split_sentences=split_sentences)
 
                 os.remove('./temp/temp.epub')
                 st.write('done')

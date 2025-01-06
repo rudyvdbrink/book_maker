@@ -12,7 +12,7 @@ from supporting_functions import (book_parser,
                                   )
 
 
-def book_maker(infile, selected_voice='Sky',speed=1.0,emotion='Neutral'):
+def book_maker(infile, selected_voice='Sky',max_length=500,speed=1.0,emotion='Neutral',split_sentences=False):
 
     # %% get book text
 
@@ -39,7 +39,7 @@ def book_maker(infile, selected_voice='Sky',speed=1.0,emotion='Neutral'):
             continue
         text = chapter[1]  # Assuming chapter[1] contains the text of the chapter
         #with suppress_output():
-        generate_chapter_file(text, chapter_number,output_dir="temp",selected_voice=selected_voice,speed=speed,emotion=emotion)
+        generate_chapter_file(text, chapter_number,output_dir="temp",selected_voice=selected_voice,max_length=max_length,speed=speed,emotion=emotion,split_sentences=split_sentences)
 
             
     # %% file cleanup and organization
