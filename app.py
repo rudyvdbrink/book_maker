@@ -1,6 +1,7 @@
 # %% libraries
 from book_maker import book_maker
-from supporting_functions import generate_sample_audio, load_tts_model, get_tts_latents
+from supporting_functions import generate_sample_audio, load_tts_model, get_tts_latents, get_model_file
+from sample_translations import default_sample_text
 import streamlit as st
 import os
 
@@ -73,10 +74,10 @@ with col1:
 
         #drop-down menu with language
         language = st.selectbox("Select a language:", ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh-cn', 'hu', 'ko', 'ja', 'hi'])
-
        
     #make box with input text
-    input_text = st.text_input('Read the following:', "Hello, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you.")
+    default_text = default_sample_text(selected_voice,language)
+    input_text = st.text_input('Read the following:', default_text)
 
     parameters = {  'selected_voice': selected_voice,
                     'max_length': max_length,
@@ -93,6 +94,9 @@ with col1:
     if st.button('Generate sample'):
         #st.write('Split sentences: ' + str(split_sentences))
         #display loading wheel while generating audio
+        with st.spinner('Downloading model...'):
+            get_model_file()
+
         with st.spinner('Preparing the model...'):
             tts = load_tts_model()
             gpt_cond_latent, speaker_embedding = get_tts_latents(tts, selected_voice=selected_voice)
@@ -125,6 +129,9 @@ with col2:
                 st.write('selected voice: ' + selected_voice)
                 book_name = uploaded_file.name.split('.epub')[0]
                 st.write('working on: ' + book_name)
+
+                with st.spinner('Downloading model...'):
+                    get_model_file()
 
                 with st.spinner('Preparing the model...'):
                     tts = load_tts_model()

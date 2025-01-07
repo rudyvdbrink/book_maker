@@ -157,54 +157,15 @@ def split_text(text, max_length=500):
 
     return chunks
 
-# %% modifying audio
-
-# import librosa
-# import soundfile as sf
-
-# def slow_audio_speed(input_file, speed=1.0):
-#     # Load the audio file
-#     y, sr = librosa.load(input_file, sr=None)
-    
-#     # Change the tempo of the audio
-#     y = librosa.effects.time_stretch(y, rate=float(speed))
-    
-#     # Save the slowed down audio
-#     sf.write(input_file, y, sr)
-
-
-# def change_audio_speed(input_file, speed):
-#     if speed > 1.0:
-#         audio = AudioSegment.from_wav(input_file)
-#         audio = audio.speedup(playback_speed=speed)
-#         audio.export(input_file, format="wav")
-#     elif speed < 1.0:
-#         slow_audio_speed(input_file, speed)
-
 
 # %% text to speech
 
-# #load standard text to speech module (probably wanna modify to run with st.cache)
-# def load_tts_model():
-#     with suppress_output():
-#         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#         tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
-#         tts = tts.to(device)
-#         return tts  
-
-# #function for generating an audio file for a chunk of text
-# def produce_audio(tts,chunk,chunk_file_path,selected_voice='Sky',speed=1.0,emotion='Neutral',split_sentences=False):
-#     with suppress_output():
-#         tts.tts_to_file(text=chunk, 
-#                         file_path=chunk_file_path, 
-#                         speaker_wav='./references/' + selected_voice + '.wav', 
-#                         language="en", 
-#                         speed=speed, 
-#                         emotion=emotion,
-#                         split_sentences=split_sentences)
-        
-#         if speed != 1.0:
-#             change_audio_speed(chunk_file_path, speed)
+def get_model_file():
+    model_file = './models/model.pth'
+    if not os.path.exists(model_file):
+        model_url = 'https://tinyurl.com/2dzb5wvt'
+        import urllib.request
+        urllib.request.urlretrieve(model_url, model_file)
    
 def load_tts_model(base_path="./models/"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
