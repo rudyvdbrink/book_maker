@@ -1,6 +1,6 @@
 # %% libraries
 from book_maker import book_maker
-from supporting_functions import generate_sample_audio
+from supporting_functions import generate_sample_audio, load_tts_model, get_tts_latents
 import streamlit as st
 import os
 
@@ -59,17 +59,41 @@ with col1:
     #make box with input text
     input_text = st.text_input('Read the following:', "Hello, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you.")
 
+    parameters = {'selected_voice': selected_voice,
+                  'max_length': max_length,
+                  'speed': speed,
+                  'split_sentences': split_sentences,
+                  'language': 'en'}
+    
+
+    temperature=0.75, #range 0.1 to 10
+    length_penalty=1.0, #0.5 to 10
+    repetition_penalty=10.0, #1 to 10
+    top_k=50, #10 to 100
+    top_p=0.85, #0.1 to 1
+    num_beams=1, #1 to 10?
+
+
     if st.button('Generate sample'):
         #st.write('Split sentences: ' + str(split_sentences))
         #display loading wheel while generating audio
+        with st.spinner('Preparing the model...'):
+            tts = load_tts_model()
+            gpt_cond_latent, speaker_embedding = get_tts_latents(tts, selected_voice=selected_voice)
+
         with st.spinner('Generating audio...'):
-            #generate sample audio
-            st.audio(generate_sample_audio(input_text, 
-                                           selected_voice,
-                                           max_length=max_length, 
-                                           speed=speed, 
-                                           emotion=emotion,
-                                           split_sentences=split_sentences), format='audio/wav')
+            st.audio( generate_sample_audio(input_text, 
+                                            tts, 
+                                            gpt_cond_latent, 
+                                            speaker_embedding, 
+                                            parameters) , format='audio/wav')
+
+            # st.audio(generate_sample_audio(input_text, 
+            #                                selected_voice,
+            #                                max_length=max_length, 
+            #                                speed=speed, 
+            #                                emotion=emotion,
+            #                                split_sentences=split_sentences), format='audio/wav')
 
 
 # Right column: BookMaker part
@@ -81,20 +105,24 @@ with col2:
     if uploaded_files:
         for uploaded_file in uploaded_files:
             if st.button('Run!'):
+                
                 st.write('selected voice: ' + selected_voice)
                 book_name = uploaded_file.name.split('.epub')[0]
                 st.write('working on: ' + book_name)
+
+                with st.spinner('Preparing the model...'):
+                    tts = load_tts_model()
+                    gpt_cond_latent, speaker_embedding = get_tts_latents(tts, selected_voice=selected_voice)
 
                 with open('./temp/temp.epub', "wb") as f:
                     f.write(uploaded_file.getbuffer())
 
                 # convert book                
                 book_maker('./temp/temp.epub',
-                           selected_voice,
-                           max_length=max_length,
-                           speed=speed,
-                           emotion=emotion,
-                           split_sentences=split_sentences)
+                           tts, 
+                           gpt_cond_latent, 
+                           speaker_embedding,
+                           parameters)
 
                 os.remove('./temp/temp.epub')
                 st.write('done')

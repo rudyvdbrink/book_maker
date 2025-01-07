@@ -1,4 +1,9 @@
 
+
+- add speaker options!
+
+- model download
+
+- cache tts base model on app startup
+
 - custom voice option with file upload box
-- try to modify the config file so that more model parameters can be changed
-- cache tts model on app startup
