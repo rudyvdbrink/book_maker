@@ -45,35 +45,51 @@ with col1:
     with l:
         #slider with voice speed
         speed = st.slider('Voice speed:', min_value=0.5, max_value=2.0, value=1.0, step=0.1)
+        
+        #slider for length penalty
+        length_penalty = st.slider('Length penalty:', min_value=0.5, max_value=10.0, value=1.0, step=0.1)
 
+        #slider for number of beams
+        num_beams = st.slider('Number of beams:', min_value=1, max_value=10, value=1, step=1)
+        
+        #slider for top k
+        top_k = st.slider('Top k:', min_value=10, max_value=100, value=50, step=10)
+        
         #tick box for split setences
         split_sentences = st.checkbox('Split sentences', value=False)
 
     with r:
+        #slider with temperature
+        temperature = st.slider('Temperature:', min_value=0.1, max_value=10.0, value=0.75, step=0.05)
+
         #slider with max length
         max_length = st.slider('Max chunk length:', min_value=50, max_value=500, value=250, step=25)
-        #drop-down for voice emotion
-        #emotion = st.selectbox("Select an emotion:", ['Neutral', 'Happy', 'Sad', 'Angry', 'Fearful', 'Disgusted', 'Surprised'])
-        emotion = 'Neutral'
+        
+        #slider with repetition penalty
+        repetition_penalty = st.slider('Repetition penalty:', min_value=1.0, max_value=10.0, value=5.0, step=0.5)
 
+        #slider with top p
+        top_p = st.slider('Top p:', min_value=0.1, max_value=1.0, value=0.85, step=0.05)
+
+        #drop-down menu with language
+        language = st.selectbox("Select a language:", ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh-cn', 'hu', 'ko', 'ja', 'hi'])
+
+       
     #make box with input text
     input_text = st.text_input('Read the following:', "Hello, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you.")
 
-    parameters = {'selected_voice': selected_voice,
-                  'max_length': max_length,
-                  'speed': speed,
-                  'split_sentences': split_sentences,
-                  'language': 'en'}
+    parameters = {  'selected_voice': selected_voice,
+                    'max_length': max_length,
+                    'speed': speed,
+                    'split_sentences': split_sentences,
+                    'temperature': temperature,
+                    'length_penalty': length_penalty,
+                    'repetition_penalty': repetition_penalty,
+                    'top_k': top_k,
+                    'top_p': top_p,
+                    'num_beams': num_beams,
+                    'language': language}
     
-
-    temperature=0.75, #range 0.1 to 10
-    length_penalty=1.0, #0.5 to 10
-    repetition_penalty=10.0, #1 to 10
-    top_k=50, #10 to 100
-    top_p=0.85, #0.1 to 1
-    num_beams=1, #1 to 10?
-
-
     if st.button('Generate sample'):
         #st.write('Split sentences: ' + str(split_sentences))
         #display loading wheel while generating audio

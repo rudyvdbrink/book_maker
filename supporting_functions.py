@@ -246,17 +246,39 @@ def get_tts_latents(tts, audio_path='./references/', selected_voice='Bert'):
 def run_inference(tts,text,gpt_cond_latent,speaker_embedding,parameters=None):
 
     if parameters is None:
-        parameters = {'selected_voice':'Bert','speed':1.0,'split_sentences':False,'language':'en'}
+        parameters = {  'selected_voice':'Bert',
+                        'speed':1.0,
+                        'split_sentences':False,
+                        'temperature':0.75,
+                        'length_penalty':1.0,
+                        'repetition_penalty':5.0,
+                        'top_k':50,
+                        'top_p':0.85,
+                        'num_beams':1,                        
+                        'language':'en'}
 
-    speed           = parameters['speed']
-    split_sentences = parameters['split_sentences']
-    language        = parameters['language']
+    speed              = parameters['speed']
+    split_sentences    = parameters['split_sentences']
+    temperature        = parameters['temperature']
+    length_penalty     = parameters['length_penalty']
+    repetition_penalty = parameters['repetition_penalty']
+    top_k              = parameters['top_k']
+    top_p              = parameters['top_p']
+    num_beams          = parameters['num_beams']
+    language           = parameters['language']
+
 
     output = tts.inference( text, 
                             gpt_cond_latent=gpt_cond_latent,
                             speaker_embedding=speaker_embedding,
                             enable_text_splitting=split_sentences,
                             speed=speed,
+                            temperature=temperature,
+                            length_penalty=length_penalty,
+                            repetition_penalty=repetition_penalty,
+                            top_k=top_k,
+                            top_p=top_p,
+                            num_beams=num_beams,
                             language=language )
     
     #save only the audio

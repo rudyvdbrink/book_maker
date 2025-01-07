@@ -1,8 +1,7 @@
 
-
-- add speaker options!
-
 - model download
+
+- add explanation for speaker options
 
 - cache tts base model on app startup
 
