@@ -6,8 +6,8 @@ import ebooklib
 from bs4 import BeautifulSoup
 from ebooklib import epub
 
-from audiobook_generator.book_parsers.base_book_parser import BaseBookParser
-from audiobook_generator.config.general_config import GeneralConfig
+from book_parsing.book_parsers.base_book_parser import BaseBookParser
+from book_parsing.config.general_config import GeneralConfig
 
 logger = logging.getLogger(__name__)
 

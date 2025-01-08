@@ -1,10 +1,10 @@
 import logging
 import os
 
-from audiobook_generator.book_parsers.base_book_parser import get_book_parser
-from audiobook_generator.config.general_config import GeneralConfig
-from audiobook_generator.core.audio_tags import AudioTags
-from audiobook_generator.tts_providers.base_tts_provider import get_tts_provider
+from book_parsing.book_parsers.base_book_parser import get_book_parser
+from book_parsing.config.general_config import GeneralConfig
+from book_parsing.core.audio_tags import AudioTags
+from book_parsing.tts_providers.base_tts_provider import get_tts_provider
 
 logger = logging.getLogger(__name__)
 

@@ -20,8 +20,8 @@ from nltk.tokenize import sent_tokenize
 
 import streamlit as st
 
-from audiobook_generator.config.general_config import GeneralConfig
-from audiobook_generator.book_parsers.epub_book_parser import EpubBookParser
+from book_parsing.config.general_config import GeneralConfig
+from book_parsing.book_parsers.epub_book_parser import EpubBookParser
 
 from mutagen.easyid3 import EasyID3
 

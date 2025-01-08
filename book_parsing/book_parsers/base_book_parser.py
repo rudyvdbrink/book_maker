@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from audiobook_generator.config.general_config import GeneralConfig
+from book_parsing.config.general_config import GeneralConfig
 
 EPUB = "epub"
 
@@ -38,7 +38,7 @@ def get_supported_book_parsers() -> List[str]:
 
 def get_book_parser(config) -> BaseBookParser:
     if config.input_file.endswith(EPUB):
-        from audiobook_generator.book_parsers.epub_book_parser import EpubBookParser
+        from book_parsing.book_parsers.epub_book_parser import EpubBookParser
         return EpubBookParser(config)
     # elif <- new book parser goes here
     else:

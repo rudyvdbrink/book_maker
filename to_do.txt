@@ -1,8 +1,14 @@
 
-- model download
 
-- add explanation for speaker options
 
-- cache tts base model on app startup
+- rename audio book generator
 
-- custom voice option with file upload box
+- file cleanup (.bat and .sh)
+
+- requirements.txt
+
+
+--- 
+
+- chapter file names
+- book cover in metadata
