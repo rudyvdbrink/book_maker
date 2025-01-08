@@ -7,10 +7,6 @@
 
 **BookMaker** is an application that let's you turn e-Books into audio books. It's primarily intended to make literature more accessible to people with reading disabilities. But you're of course also welcome to use it if you simply prefer listening over reading.
 
-
-https://github.com/user-attachments/assets/66a10527-ce9f-442d-97fd-7d728c6e52d3
-
-
 <div style="text-align: center;">
     <audio controls>
     <source src="./readmesamples/sample_1.wav" type="audio/wav">
