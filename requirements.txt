@@ -8,3 +8,4 @@ mutagen==1.47.0
 soundfile==0.12.1
 streamlit==1.38.0
 ebooklib==0.18
+ffmpeg==1.4
