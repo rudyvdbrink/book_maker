@@ -167,3 +167,4 @@ cython_debug/
 *.wav
 runapp.sh
 BookMaker.bat
+scrap/
