@@ -1,8 +1,9 @@
+torch==2.5.1
+streamlit==1.38.0
+TTS==0.22.0
+tqdm==4.66.5
 beautifulsoup4==4.12.3
-EbookLib==0.18
-mutagen==1.47.0
-openai==1.35.7
-requests==2.32.3
-socksio==1.0.0
-edge-tts==6.1.12
+nltk==3.9.1
 pydub==0.25.1
+mutagen==1.47.0
+soundfile==0.12.1
