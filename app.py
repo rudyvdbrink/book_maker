@@ -27,7 +27,7 @@ st.sidebar.page_link(page="pages/about.py", label="About")
 
 #links out
 st.sidebar.title('Resources')
-st.sidebar.page_link(page="https://github.com/rudyvdbrink/ISIC_skin_lesions_prediciton", label="Code")
+st.sidebar.page_link(page="https://github.com/rudyvdbrink/book_maker", label="Code")
 st.sidebar.page_link(page="https://ruudvandenbrink.net/", label="About author")
 
 # %% Main page
