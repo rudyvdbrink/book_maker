@@ -1,10 +1,16 @@
+# make python able to find the functions it needs
+import os
+import sys
+
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
+
 # %% libraries
 from book_maker import book_maker
 from supporting_functions import generate_sample_audio, load_tts_model, get_tts_latents, get_model_file
 from sample_translations import default_sample_text
 from options_text import options_text
 import streamlit as st
-import os
 
 # %% page layout
 

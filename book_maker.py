@@ -1,8 +1,13 @@
 
 # %% libraries
 import os
+import sys
 from tqdm import tqdm
 import streamlit as st
+
+# make python able to find the functions it needs
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
 
 from supporting_functions import (book_parser, 
                                   generate_chapter_file, 
