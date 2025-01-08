@@ -43,6 +43,23 @@ Ideally, you would run this code on a machine with a CUDA-enabled GPU. The code 
 
 ---
 
+### **How it looks and how to use it**
+
+### **Preview:**
+
+<img title="App preview" src="./figures/screenshot.png">
+
+### **How to use:**
+
+- Follow installation instructions below.
+- Start up the app
+- Try generating a voice sample. This will automatically download the model.
+- Drag and drop an e-book or select an e-book with the file uploader, and press Run!
+- After completion, your audio book is stored in the folder /path/to/app/books/
+
+
+---
+
 ### **Installation on `macOS`**: 
 
 

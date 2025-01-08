@@ -2,6 +2,7 @@
 from book_maker import book_maker
 from supporting_functions import generate_sample_audio, load_tts_model, get_tts_latents, get_model_file
 from sample_translations import default_sample_text
+from options_text import options_text
 import streamlit as st
 import os
 
@@ -40,7 +41,7 @@ with col1:
     #voice_names = voice_names[::-1]
 
     #drop-down menu with voice name
-    selected_voice = st.selectbox("Select a voice:", voice_names)
+    selected_voice = st.selectbox("Select a voice:", voice_names)     
 
     l, r = col1.columns(2)
     with l:
@@ -74,7 +75,11 @@ with col1:
 
         #drop-down menu with language
         language = st.selectbox("Select a language:", ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh-cn', 'hu', 'ko', 'ja', 'hi'])
-       
+    
+    #pop-over with explanation of options
+    with st.popover('Help'):
+        st.markdown(options_text())
+        
     #make box with input text
     default_text = default_sample_text(selected_voice,language)
     input_text = st.text_input('Read the following:', default_text)
@@ -107,14 +112,6 @@ with col1:
                                             gpt_cond_latent, 
                                             speaker_embedding, 
                                             parameters) , format='audio/wav')
-
-            # st.audio(generate_sample_audio(input_text, 
-            #                                selected_voice,
-            #                                max_length=max_length, 
-            #                                speed=speed, 
-            #                                emotion=emotion,
-            #                                split_sentences=split_sentences), format='audio/wav')
-
 
 # Right column: BookMaker part
 with col2:
