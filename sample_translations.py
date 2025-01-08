@@ -212,13 +212,50 @@ def translate_voice_name(selected_voice='Bert',language='en'):
             selected_voice = 'スカイ'  # Sky in Japanese
         elif language == 'hi':
             selected_voice = 'आसमान'  # Sky in Hindi
+    elif selected_voice == 'custom_voice':
+        if language == 'en':
+            selected_voice = 'a custom voice' 
+        elif language == 'es':
+            selected_voice = 'una voz personalizada'  # "a custom voice" in Spanish
+        elif language == 'fr':
+            selected_voice = 'une voix personnalisée'  # "a custom voice" in French
+        elif language == 'de':
+            selected_voice = 'eine benutzerdefinierte Stimme'  # "a custom voice" in German
+        elif language == 'it':
+            selected_voice = 'una voce personalizzata'  # "a custom voice" in Italian
+        elif language == 'pt':
+            selected_voice = 'uma voz personalizada'  # "a custom voice" in Portuguese
+        elif language == 'pl':
+            selected_voice = 'niestandardowy głos'  # "custom voice" in Polish 
+        elif language == 'tr':
+            selected_voice = 'özel ses'  # "custom voice" in Turkish 
+        elif language == 'ru':
+            selected_voice = 'пользовательский голос'  # "custom voice" in Russian 
+        elif language == 'nl':
+            selected_voice = 'een zelf gedefinieerde stem'  # "a custom voice" in Dutch
+        elif language == 'cs':
+            selected_voice = 'vlastní hlas'  # "custom voice" in Czech 
+        elif language == 'ar':
+            selected_voice = 'صوت مخصص'  # "custom voice" in Arabic 
+        elif language == 'zh-cn':
+            selected_voice = '自定义语音'  # "custom voice" in Chinese 
+        elif language == 'hu':
+            selected_voice = 'egyedi hang'  # "custom voice" in Hungarian 
+        elif language == 'ko':
+            selected_voice = '맞춤 음성'  # "custom voice" in Korean 
+        elif language == 'ja':
+            selected_voice = 'カスタム音声'  # "custom voice" in Japanese 
+        elif language == 'hi':
+            selected_voice = 'कस्टम वॉयस'  # "custom voice" in Hindi 
+
+
 
     return selected_voice
 
 def default_sample_text(selected_voice='Bert',language='en'):
 
     if language == 'en':
-         default_text = "Hello, I'm " + selected_voice + ", and I'd be happy to read your books aloud for you."
+         default_text = "Hello, I'm " + translate_voice_name(selected_voice,language=language) + ", and I'd be happy to read your books aloud for you."
     elif language == 'es':
         default_text = "Hola, soy " + translate_voice_name(selected_voice,language=language) + ", y estaré encantado de leer tus libros en voz alta para ti."
     elif language == 'fr':

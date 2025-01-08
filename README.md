@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/d81fb147-46d8-42f3-92bf-29d50b4fc176
 ### **How to use:**
 
 - Follow installation instructions below.
-- Start up the app
+- Start up the app.
 - Try generating a voice sample. This will automatically download the model.
 - Drag and drop an e-book or select an e-book with the file uploader, and press Run!
 - After completion, your audio book is stored in the folder /path/to/app/books/

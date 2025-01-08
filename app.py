@@ -36,12 +36,28 @@ with col1:
     st.header("Voice options")
     # Get list of .wav files in the ./references/ folder
     voice_names = [f.split('.wav')[0] for f in os.listdir('./references/') if f.endswith('.wav')]
+    try:
+        voice_names.remove('custom_voice')
+    except:
+        pass
 
+    #add custom voice to the list
+    voice_names.append('[Custom voice]')
     #re-arrange list so it's sorted end to start
     #voice_names = voice_names[::-1]
 
     #drop-down menu with voice name
-    selected_voice = st.selectbox("Select a voice:", voice_names)     
+    selected_voice = st.selectbox("Select a voice:", voice_names)
+
+    #if custom voice is selected, show file upload
+    if selected_voice == '[Custom voice]':
+        custom_voice = st.file_uploader("Upload a .wav file with the voice you want to use (roughly 6 to 20 seconds long)", type="wav")
+        selected_voice = 'custom_voice'
+        if custom_voice:
+            with open('./references/custom_voice.wav', "wb") as f:
+                f.write(custom_voice.getbuffer())
+                st.write('Custom voice uploaded successfully!')
+                 
 
     l, r = col1.columns(2)
     with l:
@@ -79,7 +95,7 @@ with col1:
     #pop-over with explanation of options
     with st.popover('Help'):
         st.markdown(options_text())
-        
+
     #make box with input text
     default_text = default_sample_text(selected_voice,language)
     input_text = st.text_input('Read the following:', default_text)
@@ -97,6 +113,11 @@ with col1:
                     'language': language}
     
     if st.button('Generate sample'):
+
+        #if custom voice is selected but no file is uploaded, show error message
+        if selected_voice == 'custom_voice' and not custom_voice:
+            st.error('Please upload a custom voice file first')                        
+
         #st.write('Split sentences: ' + str(split_sentences))
         #display loading wheel while generating audio
         with st.spinner('Downloading model...'):
@@ -122,6 +143,10 @@ with col2:
     if uploaded_files:
         for uploaded_file in uploaded_files:
             if st.button('Run!'):
+
+                #if custom voice is selected but no file is uploaded, show error message
+                if selected_voice == 'custom_voice' and not custom_voice:
+                    st.error('Please upload a custom voice file first')   
                 
                 st.write('selected voice: ' + selected_voice)
                 book_name = uploaded_file.name.split('.epub')[0]
