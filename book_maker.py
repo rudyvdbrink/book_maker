@@ -58,7 +58,7 @@ def book_maker(infile, tts, gpt_cond_latent, speaker_embedding, parameters=None)
         chapter_title = chapter[0]
         for file in os.listdir('temp'):
             if file.startswith(f'chapter_{chapter_number}_') and file.endswith('.wav'):
-                mp3_file = file.replace('.wav', '.mp3').replace('_combined', '')
+                mp3_file = file.replace('.wav', '.mp3').replace('_combined', '').replace('_',' ').title()
                 convert_wav_to_mp3(os.path.join('temp', file), os.path.join('temp', mp3_file), chapter_title, chapter_number, book_author, book_title)
 
     # create a folder with the book title in the 'books' folder
