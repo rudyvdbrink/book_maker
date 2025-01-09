@@ -58,7 +58,7 @@ def book_maker(infile, tts, gpt_cond_latent, speaker_embedding, parameters=None)
         chapter_title = chapter[0]
         for file in os.listdir('temp'):
             if file.startswith(f'chapter_{chapter_number}_') and file.endswith('.wav'):
-                mp3_file = file.replace('.wav', '.mp3').replace('_combined', '').replace('_',' ').title()
+                mp3_file = file.replace('_combined', '').replace('_',' ').title().replace('.Wav', '.mp3')
                 convert_wav_to_mp3(os.path.join('temp', file), os.path.join('temp', mp3_file), chapter_title, chapter_number, book_author, book_title)
 
     # create a folder with the book title in the 'books' folder
@@ -68,7 +68,7 @@ def book_maker(infile, tts, gpt_cond_latent, speaker_embedding, parameters=None)
 
     #copy over all the chapter mp3 files
     for file in os.listdir('temp'):
-        if file.startswith('chapter_') & file.endswith('.mp3'):
+        if file.startswith('Chapter') & file.endswith('.mp3'):
             #if the output file exists already, delete it
             if os.path.exists(os.path.join(output_folder, file)):
                 os.remove(os.path.join(output_folder, file))
@@ -76,5 +76,5 @@ def book_maker(infile, tts, gpt_cond_latent, speaker_embedding, parameters=None)
 
     #remove chapter files from the temp folder
     for file in os.listdir('temp'):
-        if file.startswith('chapter_'):
+        if file.startswith('chapter'):
             os.remove(os.path.join('temp', file))
