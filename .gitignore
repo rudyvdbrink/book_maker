@@ -168,3 +168,4 @@ cython_debug/
 runapp.sh
 BookMaker.bat
 scrap/
+to_do.txt

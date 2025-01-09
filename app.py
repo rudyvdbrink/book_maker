@@ -118,7 +118,7 @@ with col1:
                     'num_beams': num_beams,
                     'language': language}
     
-    if st.button('Generate sample'):
+    if st.button('Generate sample',key='sample_button'):
 
         #if custom voice is selected but no file is uploaded, show error message
         if selected_voice == 'custom_voice' and not custom_voice:
@@ -147,24 +147,26 @@ with col2:
     uploaded_files = st.file_uploader("Upload epub files", type="epub", accept_multiple_files=True)
 
     if uploaded_files:
-        for uploaded_file in uploaded_files:
-            if st.button('Run!'):
+        
+        if st.button('Run!',key='book_run_button'):
 
-                #if custom voice is selected but no file is uploaded, show error message
-                if selected_voice == 'custom_voice' and not custom_voice:
-                    st.error('Please upload a custom voice file first')   
-                
-                st.write('selected voice: ' + selected_voice)
-                book_name = uploaded_file.name.split('.epub')[0]
-                st.write('working on: ' + book_name)
+            #if custom voice is selected but no file is uploaded, show error message
+            if selected_voice == 'custom_voice' and not custom_voice:
+                st.error('Please upload a custom voice file first')  
 
-                with st.spinner('Downloading model...'):
+            st.write('selected voice: ' + selected_voice)       
+            with st.spinner('Downloading model...'):
                     get_model_file()
 
-                with st.spinner('Preparing the model...'):
-                    tts = load_tts_model()
-                    gpt_cond_latent, speaker_embedding = get_tts_latents(tts, selected_voice=selected_voice)
+            with st.spinner('Preparing the model...'):
+                tts = load_tts_model()
+                gpt_cond_latent, speaker_embedding = get_tts_latents(tts, selected_voice=selected_voice) 
 
+            for uploaded_file in uploaded_files:
+                
+                book_name = uploaded_file.name.split('.epub')[0]
+                st.write('working on: ' + book_name)
+                
                 with open('./temp/temp.epub', "wb") as f:
                     f.write(uploaded_file.getbuffer())
 
