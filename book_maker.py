@@ -62,7 +62,8 @@ def book_maker(infile, tts, gpt_cond_latent, speaker_embedding, parameters=None)
                 convert_wav_to_mp3(os.path.join('temp', file), os.path.join('temp', mp3_file), chapter_title, chapter_number, book_author, book_title)
 
     # create a folder with the book title in the 'books' folder
-    output_folder = os.path.join('books', book.get_book_title())
+    output_folder = os.path.join('books', book.get_book_author())
+    output_folder = os.path.join(output_folder, book.get_book_title())
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
