@@ -14,7 +14,7 @@ The app uses XTTS V2 text to speech, as the underlying model. Text is split up i
 Ideally, you would run this code on a machine with a CUDA-enabled GPU. The code is written device agnostically, so should run even when there is no GPU available. In that case, run time may be on the slow side.  
 
 
-https://github.com/user-attachments/assets/6b6149b9-0241-4728-8b27-cda2d451ac13
+https://github.com/user-attachments/assets/3b231fcd-3b8f-4e3f-b9a2-355f203256f7
 
 
 ---
