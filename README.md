@@ -1,8 +1,10 @@
 # BookMaker
 
-<div style="text-align: center;">
-    <img title="Logo" src="./figures/logo.png" width="200">
-</div>
+
+<h2 align="center">
+    <img title="Logo" src="./figures/logo.png" width="300">
+</h2>
+
 
 
 **BookMaker** is an application that lets you turn e-Books into audio books. It's primarily intended to make literature more accessible to people with reading disabilities. But you're of course also welcome to use it if you simply prefer listening over reading.
