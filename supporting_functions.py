@@ -307,7 +307,11 @@ def generate_chapter_file(text, tts, gpt_cond_latent, speaker_embedding, chapter
     combined = AudioSegment.empty()
     for file in audio_files:
         combined += AudioSegment.from_wav(file)
+
+    #add five seconds of silence at the end of the chapter
+    combined += AudioSegment.silent(duration=5000)
     
+    #export combined audio file
     combined.export(os.path.join(output_dir, f"chapter_{chapter_number}_combined.wav"), format="wav")
 
     # Delete all chapter parts
